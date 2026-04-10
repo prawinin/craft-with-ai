@@ -1,0 +1,60 @@
+# ============================================================================
+#  Python for AI — .gitignore
+# ============================================================================
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Course progress (auto-created per student on their machine)
+.course_progress.json
+
+# Course-generated files (created when running lessons)
+# Lesson 17 — charts and data exports
+salary_chart.png
+temperature_chart.png
+scores_histogram.png
+scatter_plot.png
+analysis_plots.png
+sample_data.csv
+sample_data.json
+student_analysis.csv
+
+# Lesson 18 — practical Python file exercises
+output/
+data/
+example_project/
+*.log
+hello.txt
+notes.txt
+shopping.txt
+config.json
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Desktop.ini

@@ -1,0 +1,15 @@
+# Python for AI — Dependencies
+# Install all at once: pip install -r requirements.txt
+
+# Core — Beautiful terminal UI for the course runner
+rich>=13.0
+
+# Lesson 16 — Working with APIs
+requests>=2.28
+
+# Lesson 17 — Working with Data
+pandas>=1.5
+matplotlib>=3.6
+
+# VS Code Interactive Window support (optional, for advanced users)
+ipykernel>=6.0
