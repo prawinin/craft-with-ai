@@ -96,6 +96,16 @@ print(f"Project: {project_dir.resolve()}")   # Full absolute path
 print(f"Data dir: {data_dir}")
 print(f"Output: {output_file}")
 
+
+"""Why use resolve() instead of just print(project_dir)?
+If you just print project_dir, it will simply output .—which isn't very helpful if you're trying to debug where your AI model is saving its data.
+
+By using project_dir.resolve(), you get the "Truth":
+
+Without resolve: .
+
+With resolve: /home/prawin/Documents/GitHub/py4ai"""
+
 # pathlib advantages:
 # - / operator for joining paths (cleaner than os.path.join)
 # - Works on all operating systems automatically

@@ -361,28 +361,68 @@ def parse_lesson(filepath: str) -> dict:
         else:
             sec_type = "theory"
 
-        comments = []
-        code_lines = []
+        # Build ordered content blocks: interleaved text and code
+        # This preserves inline code examples alongside their explanations
+        content_blocks = []
+        current_text = []
+        current_code = []
+        all_code_lines = []
 
-        # Separate comments (reading material) from code
+        def flush_text():
+            if current_text:
+                joined = '\n'.join(current_text).strip()
+                if joined:
+                    content_blocks.append({"type": "text", "content": joined})
+                current_text.clear()
+
+        def flush_code():
+            if current_code:
+                joined = '\n'.join(current_code).strip()
+                if joined:
+                    content_blocks.append({"type": "code", "content": joined})
+                current_code.clear()
+
         for line in lines[1:]:
             stripped = line.strip()
             if stripped.startswith('#'):
+                # Comment line — flush any accumulated code first
+                flush_code()
                 text = line.lstrip()[1:]  # Remove the leading #
                 if text.startswith(' '):
                     text = text[1:]  # Remove the space after #
-                comments.append(text)
+                current_text.append(text)
+            elif stripped:
+                # Non-empty code line — flush any accumulated text first
+                flush_text()
+                current_code.append(line)
+                all_code_lines.append(line)
             else:
-                if stripped or code_lines:
-                    code_lines.append(line)
+                # Blank line — belongs to whichever block is active
+                if current_code:
+                    current_code.append(line)
+                    all_code_lines.append(line)
+                elif current_text:
+                    current_text.append('')
 
-        code_str = '\n'.join(code_lines).strip()
+        # Flush remaining
+        flush_text()
+        flush_code()
+
+        # ALL code lines are executable (maintains original behavior)
+        executable_code = '\n'.join(all_code_lines).strip()
+
+        # Build legacy 'comments' list for backward compat
+        comments = []
+        for block in content_blocks:
+            if block["type"] == "text":
+                comments.extend(block["content"].split('\n'))
 
         sections.append({
             "title": title,
             "type": sec_type,
             "comments": comments,
-            "code": code_str,
+            "content_blocks": content_blocks,
+            "code": executable_code,
         })
 
     return {
@@ -509,15 +549,13 @@ def render_section_header(title: str, sec_type: str):
     console.print()
 
 
-def render_reading_material(comments: list, sec_type: str):
-    """Render the reading/comment material as a styled panel."""
-    if not comments:
-        return
+def render_reading_material(comments: list, sec_type: str, content_blocks: list = None):
+    """Render the reading/comment material as styled panels.
 
-    text = '\n'.join(comments).strip()
-    if not text:
-        return
-
+    If content_blocks are provided (new format with interleaved text and
+    inline code examples), render them sequentially. Otherwise, fall back
+    to the legacy comments-only display.
+    """
     type_colors = {
         "theory":    THEORY_COLOR,
         "exercise":  EXERCISE_COLOR,
@@ -530,7 +568,51 @@ def render_reading_material(comments: list, sec_type: str):
 
     color = type_colors.get(sec_type, THEORY_COLOR)
 
-    # For long reading material, wrap in a panel
+    # New path: interleaved content blocks
+    if content_blocks:
+        try:
+            from rich.console import Group
+        except ImportError:
+            from rich.group import Group
+        renderables = []
+
+        for block in content_blocks:
+            if block["type"] == "text":
+                text_content = block["content"]
+                if text_content.strip():
+                    renderables.append(Text(text_content, style=TEXT_PRIMARY))
+            elif block["type"] == "code":
+                code_content = block["content"]
+                if code_content.strip():
+                    syn = Syntax(
+                        code_content,
+                        "python",
+                        theme="monokai",
+                        padding=(0, 1),
+                        word_wrap=True,
+                    )
+                    renderables.append(Text(""))  # spacer
+                    renderables.append(syn)
+                    renderables.append(Text(""))  # spacer
+
+        if renderables:
+            panel = Panel(
+                Group(*renderables),
+                border_style=color,
+                padding=(1, 2),
+                expand=True,
+            )
+            console.print(panel)
+        return
+
+    # Legacy fallback: flat comments list
+    if not comments:
+        return
+
+    text = '\n'.join(comments).strip()
+    if not text:
+        return
+
     panel = Panel(
         Text(text, style=TEXT_PRIMARY),
         border_style=color,
@@ -895,7 +977,7 @@ def play_lesson(filepath: str, progress: dict) -> str:
             render_section_header(section["title"], section["type"])
 
         # Render reading material
-        render_reading_material(section["comments"], section["type"])
+        render_reading_material(section["comments"], section["type"], section.get("content_blocks"))
 
         # Render code (if any)
         if section["code"]:
