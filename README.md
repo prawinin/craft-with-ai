@@ -51,9 +51,21 @@ chmod +x start_linux.sh   # (or start_mac.sh)
 ### Windows
 Double-click `start_windows.bat`
 
-**Manual execution:**
+### 🛠️ Manual Setup (If You Prefer)
+
+**1. Create a Virtual Environment**
 ```bash
-python3 course_runner.py
+python3 -m venv .venv
+```
+
+**2. Activate the Environment**
+- **Mac/Linux:** `source .venv/bin/activate`
+- **Windows:** `.venv\Scripts\activate`
+
+**3. Install Dependencies & Launch**
+```bash
+pip install -r requirements.txt
+python course_runner.py
 ```
 
 ---

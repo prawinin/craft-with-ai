@@ -190,9 +190,9 @@ if pydantic_installed:
 #   recipe = completion.choices[0].message.parsed
 #   print(recipe.name)
 
-# print("\n--- 3. NATIVE API STRUCTURED OUTPUTS ---")
+# print("\n--- 3. 💡 PRO TIP: NATIVE API STRUCTURED OUTPUTS ---")
 print("  Always prefer using native response_format or function calling configurations")
-print("  when using models that support compiler-level JSON Schema constraints.")
+print("  (like client.beta.chat.completions.parse) to enforce JSON schemas at the API level.")
 
 
 # === COMMON MISTAKES ==========================================================

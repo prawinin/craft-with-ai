@@ -11,10 +11,11 @@ pandas>=1.5
 matplotlib>=3.6
 
 # Module 3 — Service Layers & APIs (FastAPI & Pydantic)
-fastapi>=0.95
+fastapi[standard]>=0.111.0
 pydantic>=2.0
 uvicorn>=0.20
 
 # Module 5 & 6 — Vector DBs & LLMs
 chromadb>=0.4.0
+openai>=1.14.0
 python-dotenv>=1.0.0

@@ -193,11 +193,17 @@ interpret_compose_architecture(sample_compose_yml)
 #   docker compose down
 #     Safely stops containers, releases network interfaces, and unbinds mapped ports
 #     without losing your persistent volumes.
+#
+#   docker compose watch
+#     💡 PRO TIP: The modern way to develop! Instead of rebuilding your container
+#     when you change a Python file, `watch` auto-syncs your file saves directly 
+#     into the running container instantly.
 
 # print("\n--- 4. DOCKER COMPOSE CLI VERBS ---")
 print("  Launch:   docker compose up -d")
 print("  Tear Down: docker compose down")
 print("  Logs:     docker compose logs -f")
+print("  Live Sync: docker compose watch  (💡 PRO TIP)")
 
 
 # === COMMON MISTAKES ==========================================================

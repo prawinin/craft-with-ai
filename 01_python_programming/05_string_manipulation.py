@@ -86,6 +86,12 @@ print(separator)
 #
 # f-strings support powerful formatting options after a colon:
 
+# --- 💡 PRO TIP: Debugging with f-strings ---
+# In modern Python, you can add an equals sign inside the braces to print
+# both the variable name and its value instantly. A massive time-saver!
+user_id = 42
+print(f"{user_id=}")         # Outputs: user_id=42
+
 # --- Decimal places ---
 pi = 3.14159265358979
 print(f"Pi: {pi}")           # Pi: 3.14159265358979

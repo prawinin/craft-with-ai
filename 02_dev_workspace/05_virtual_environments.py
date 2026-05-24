@@ -58,7 +58,10 @@ print(f"Active Python path: {sys.prefix}")
 #
 # HOW TO CREATE A VIRTUAL ENVIRONMENT (in your terminal):
 #   1. Navigate to your project folder:  `cd my_ai_project`
-#   2. Create the environment:           `python3 -m venv .venv`
+#   2. Create the environment using one of these standard methods:
+#      - Default standard library: `python3 -m venv .venv`
+#      - Include global packages:  `python3 -m venv --system-site-packages .venv`
+#      - Using the faster external tool: `virtualenv .venv` (requires `pip install virtualenv`)
 #      (This creates a hidden folder named '.venv' containing a fresh Python copy)
 #
 # HOW TO ACTIVATE IT:
@@ -78,6 +81,12 @@ print(f"Active Python path: {sys.prefix}")
 #
 #   To generate the list:      `pip freeze > requirements.txt`
 #   To install from the list:  `pip install -r requirements.txt`
+#
+# 💡 PRO TIP: The Modern Alternative -> `uv`
+#   While `pip` and `venv` are the standard, the AI industry is rapidly moving 
+#   towards a new tool called `uv` (built by Astral). It's written in Rust and is 
+#   10-100x faster than pip. If you want to be on the bleeding edge, install `uv`
+#   and simply run: `uv venv` and `uv pip install -r requirements.txt`!
 
 def simulate_requirements_parsing(req_file_content: str):
     """Parses a requirements.txt file to show what packages are needed."""

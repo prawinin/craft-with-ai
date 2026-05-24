@@ -166,23 +166,22 @@ if fastapi_installed:
         return {"message": "You have accessed the secure AI enclave.", "key_used": api_key}
 
 
-# === RUNNING THE FASTAPI SERVER WITH UVICORN =================================
+# === RUNNING THE FASTAPI SERVER ==============================================
 #
-# Unlike standard Django or Flask scripts that you just "run", FastAPI relies on
-# an ASGI server called `Uvicorn`. If you run this file directly via `python`,
-# it will just print diagnostic text and exit. You must host it via Uvicorn!
+# Unlike standard Python scripts that you just "run", FastAPI relies on
+# an ASGI server. The modern, highly recommended way to run this is using the 
+# built-in FastAPI CLI!
 #
 # HOW TO RUN THIS SERVER:
 #   1. Save this file locally as `main.py`
 #   2. Open your terminal in the same folder.
 #   3. Run the following command:
 #
-#      uvicorn main:app --reload --port 8000
+#      fastapi dev main.py
 #
 #   Explanation:
-#   - `main`: The name of your python file (without .py)
-#   - `app`: The name of the FastAPI() instance variable inside that file
-#   - `--reload`: Auto-restarts the server whenever you save code changes!
+#   - `fastapi dev`: Starts the server in development mode with auto-reload enabled!
+#   - (Historically, you would use `uvicorn main:app --reload`. Both commands work perfectly!)
 #
 #   4. Open your browser and navigate to:
 #      - http://127.0.0.1:8000/      (Returns the diagnostic JSON)
@@ -191,8 +190,9 @@ if fastapi_installed:
 
 if __name__ == "__main__":
     print("\n--- 2. RUNNING THE SERVER ---")
-    print("To run the FastAPI server, use uvicorn in your terminal:")
-    print("  uvicorn main:app --reload --port 8000")
+    print("To run the FastAPI server, use the modern CLI in your terminal:")
+    print("  fastapi dev main.py")
+    print("  (or use: uvicorn main:app --reload --port 8000)")
     print("\nOnce started, navigate to http://127.0.0.1:8000/docs to interact with your endpoints.")
 
 
