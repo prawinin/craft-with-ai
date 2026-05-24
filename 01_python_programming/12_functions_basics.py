@@ -1,8 +1,4 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Copyright (c) 2026 Prawin Kumar. All rights reserved.
-# Licensed under CC BY-NC-ND 4.0 — learn freely, but do not sell or rebrand.
-# See LICENSE file for full terms. GitHub: https://github.com/prawinin
-# ─────────────────────────────────────────────────────────────────────────────
+# Copyright (c) 2026 Prawin Kumar
 
 """
 ===============================================================================

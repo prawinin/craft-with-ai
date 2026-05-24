@@ -1,0 +1,2877 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python for AI - Learn Practical Programming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Outfit:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-heading: "Outfit", sans-serif;
+      --font-body: "Plus Jakarta Sans", sans-serif;
+      --font-code: "JetBrains Mono", monospace;
+
+      --bg: #f8fafc;
+      --bg-alt: #f1f5f9;
+      --panel: rgba(255, 255, 255, 0.7);
+      --panel-strong: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.08);
+      --accent-strong: #3730a3;
+      --warm: #f97316;
+      --border: rgba(226, 232, 240, 0.8);
+      --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+      --code-bg: #0f172a;
+      --code-text: #e2e8f0;
+
+      --accent-rgb: 79, 70, 229;
+      --border-glow: rgba(79, 70, 229, 0.15);
+    }
+
+    body[data-theme="night"] {
+      --bg: #080c14;
+      --bg-alt: #0e1320;
+      --panel: rgba(15, 23, 42, 0.65);
+      --panel-strong: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #818cf8;
+      --accent-soft: rgba(129, 140, 248, 0.12);
+      --accent-strong: #a5b4fc;
+      --warm: #fb923c;
+      --border: rgba(51, 65, 85, 0.45);
+      --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      --code-bg: #090d16;
+      --code-text: #f1f5f9;
+
+      --accent-rgb: 129, 140, 248;
+      --border-glow: rgba(129, 140, 248, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: radial-gradient(circle at 10% 15%, rgba(var(--accent-rgb), 0.08), transparent 45%),
+                  radial-gradient(circle at 85% 5%, rgba(249, 115, 22, 0.06), transparent 40%),
+                  var(--bg);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: color-mix(in srgb, var(--border) 150%, transparent);
+    }
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(80px);
+      opacity: 0.25;
+      z-index: 0;
+      pointer-events: none;
+      animation: drift 15s ease-in-out infinite;
+    }
+
+    .bg-orb.a {
+      width: 320px;
+      height: 320px;
+      background: rgba(var(--accent-rgb), 0.25);
+      top: -120px;
+      left: -80px;
+    }
+
+    .bg-orb.b {
+      width: 300px;
+      height: 300px;
+      background: rgba(249, 115, 22, 0.2);
+      right: -100px;
+      top: 150px;
+      animation-delay: 2s;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(10px, 30px) scale(1.05); }
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(var(--accent-rgb), 0.02);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .brand {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      letter-spacing: -0.01em;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+
+    .brand span {
+      background: linear-gradient(135deg, var(--accent), var(--warm));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+    }
+
+    .search-wrap {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      width: min(760px, 100%);
+      flex: 1;
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    .search {
+      width: min(520px, 100%);
+      padding: 11px 16px 11px 40px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel-strong);
+      color: var(--text);
+      font-size: 0.92rem;
+      font-family: var(--font-heading);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 14px center;
+    }
+
+    .search:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft), inset 0 2px 4px rgba(0,0,0,0.01);
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--panel-strong);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.08);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn.primary:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--accent) 90%, #000);
+      box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.20);
+    }
+
+    .layout {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: var(--sidebar-width, 340px) minmax(0, 1fr);
+      transition: grid-template-columns 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      align-items: start;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      animation: rise 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-glow);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Collapsible Sticky Sidebar Styles */
+    .sidebar {
+      width: 100%;
+      margin-right: 24px;
+      transition: margin-right 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, transform 0.3s ease;
+      position: sticky;
+      top: 90px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding-right: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Beautiful custom scrollbar for sticky sidebar */
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 99px;
+    }
+    .sidebar::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-soft);
+    }
+    
+    .layout.hide-left {
+      grid-template-columns: 0px minmax(0, 1fr);
+    }
+    
+    .layout.hide-left .sidebar {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-20px);
+      margin-right: 0px;
+    }
+
+    #toggleLeftBtn {
+      padding: 8px 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar .heading {
+      margin: 0 0 12px;
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+
+    .course-title {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    .course-subtitle {
+      margin: 8px 0 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      background: var(--panel-strong);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 6px;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .stat .value {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat .label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .progress-shell {
+      margin-top: 14px;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), #06b6d4);
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+    }
+
+    .status {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .lesson-list {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: calc(100vh - 300px);
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .module-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .module-group:last-child {
+      margin-bottom: 0;
+    }
+    .module-group.collapsed .module-lessons {
+      display: none;
+    }
+    .module-header {
+      padding: 6px 12px;
+      border-left: 3px solid var(--accent);
+      background: linear-gradient(90deg, color-mix(in srgb, var(--panel-strong) 40%, transparent) 0%, transparent 100%);
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .module-header:hover {
+      background: linear-gradient(90deg, color-mix(in srgb, var(--panel-strong) 60%, transparent) 0%, transparent 100%);
+    }
+    .module-eyebrow {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      font-weight: 750;
+      font-family: var(--font-heading);
+      display: block;
+    }
+    .module-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text);
+      font-family: var(--font-heading);
+      margin: 2px 0 0 0;
+      line-height: 1.25;
+    }
+    .module-lessons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-left: 2px;
+    }
+
+    .lesson-item {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      background: var(--panel-strong);
+      background: color-mix(in srgb, var(--panel-strong) 85%, transparent);
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .lesson-item:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.06);
+    }
+
+    .lesson-item.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 1px var(--accent), 0 4px 16px rgba(var(--accent-rgb), 0.1);
+    }
+
+    .lesson-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lesson-top strong {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .lesson-title {
+      margin-top: 4px;
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .meta {
+      margin-top: 5px;
+      font-size: 0.77rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      color: var(--muted);
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge.done {
+      color: #10b981;
+      border-color: rgba(16, 185, 129, 0.25);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hero {
+      position: relative;
+      background-image: radial-gradient(var(--border) 1px, transparent 1px);
+      background-size: 20px 20px;
+      overflow: hidden;
+    }
+
+    .hero .eyebrow {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      margin: 8px 0 12px;
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 1.4rem + 1.2vw, 2.2rem);
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin: 0;
+      line-height: 1.6;
+      color: var(--text);
+      font-size: 1.02rem;
+      text-wrap: pretty;
+    }
+
+    .hero-callout {
+      margin-top: 16px;
+      border-left: 3px solid var(--accent);
+      border-radius: 4px 12px 12px 4px;
+      padding: 12px 16px;
+      background: var(--accent-soft);
+      font-size: 0.96rem;
+      line-height: 1.5;
+    }
+
+    .goal-wrap {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .goal {
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: var(--panel-strong);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: border-color 0.2s ease;
+    }
+    
+    .goal:hover {
+      border-color: var(--accent);
+    }
+
+    .hero-actions {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .section-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-toolbar h2 {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+    
+    .section-toolbar > div {
+      display: flex;
+      gap: 8px;
+    }
+
+    .section-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--panel);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+      border-color: var(--border-glow);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 8px;
+    }
+
+    .section-header h3 {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .step-pill {
+      font-family: var(--font-heading);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .step-pill.pill-theory {
+      background: rgba(14, 165, 233, 0.08);
+      border-color: rgba(14, 165, 233, 0.2);
+      color: #0ea5e9;
+    }
+    .step-pill.pill-exercise {
+      background: rgba(79, 70, 229, 0.08);
+      border-color: rgba(79, 70, 229, 0.2);
+      color: #4f46e5;
+    }
+    .step-pill.pill-solution {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+    .step-pill.pill-warning {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+    .step-pill.pill-takeaway {
+      background: rgba(168, 85, 247, 0.08);
+      border-color: rgba(168, 85, 247, 0.2);
+      color: #a855f7;
+    }
+    .step-pill.pill-realworld {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+    .step-pill.pill-next {
+      background: rgba(20, 184, 166, 0.08);
+      border-color: rgba(20, 184, 166, 0.2);
+      color: #20b8a6;
+    }
+
+    .mini-box {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 14px;
+      background: var(--panel-strong);
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mini-box:hover {
+      transform: translateY(-1px);
+    }
+
+    .mini-box-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+
+    .mini-box h4 {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 0.84rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .mini-box p {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 0.96rem;
+      color: var(--text);
+    }
+
+    .mini-box.simple-words {
+      border-left: 4px solid var(--warm);
+      background: color-mix(in srgb, var(--warm) 4%, var(--panel-strong));
+    }
+    .mini-box.simple-words h4 {
+      color: var(--warm);
+    }
+    .mini-box.simple-words .mini-box-icon {
+      color: var(--warm);
+    }
+
+    .mini-box.real-life {
+      border-left: 4px solid var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--panel-strong));
+    }
+    .mini-box.real-life h4 {
+      color: var(--accent);
+    }
+    .mini-box.real-life .mini-box-icon {
+      color: var(--accent);
+    }
+
+    .text-block {
+      margin-top: 12px;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .text-block p {
+      margin: 0 0 12px;
+      text-wrap: pretty;
+    }
+
+    .text-block ul {
+      margin: 0 0 12px 20px;
+      padding: 0;
+    }
+    
+    .text-block li {
+      margin-bottom: 6px;
+    }
+
+    details.code {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--code-bg);
+      box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    details.code summary {
+      cursor: pointer;
+      font-family: var(--font-heading);
+      font-size: 0.88rem;
+      padding: 12px 16px;
+      background: color-mix(in srgb, var(--code-bg) 92%, var(--text));
+      border-bottom: 1px solid var(--border);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      color: var(--code-text);
+      font-weight: 600;
+    }
+
+    details.code summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .terminal-dot.red { background: #ff5f56; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #27c93f; }
+
+    .summary-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tech-badge {
+      font-size: 0.72rem;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-family: var(--font-heading);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .chevron-icon {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.25s ease;
+      stroke: var(--muted);
+    }
+
+    details.code[open] .chevron-icon {
+      transform: rotate(90deg);
+    }
+
+    .code-shell {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 16px;
+      overflow: auto;
+      position: relative;
+    }
+
+    details.code[open] .code-shell {
+      animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .code-shell pre {
+      margin: 0;
+      font-family: var(--font-code);
+      font-size: 0.86rem;
+      line-height: 1.55;
+      overflow-x: auto;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--code-text);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.25);
+    }
+
+    .repeat-note {
+      margin-top: 12px;
+      border: 1px dashed rgba(249, 115, 22, 0.3);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      background: rgba(249, 115, 22, 0.05);
+      line-height: 1.5;
+    }
+
+    .benchmark-list,
+    .search-results {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .benchmark-item {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--panel-strong);
+      background: color-mix(in srgb, var(--panel-strong) 85%, transparent);
+      padding: 14px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .benchmark-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .benchmark-item a {
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .benchmark-item a:hover {
+      text-decoration: underline;
+    }
+
+    .benchmark-item ul {
+      margin: 8px 0 0 16px;
+      padding: 0;
+      font-size: 0.86rem;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .search-results-overlay {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 50px; /* Offset the night toggle button */
+      width: min(520px, calc(100vw - 48px));
+      background: var(--panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(var(--accent-rgb), 0.08);
+      z-index: 1100;
+      display: none;
+      max-height: 380px;
+      overflow-y: auto;
+      padding: 12px;
+      animation: spotlight-rise 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .search-results-overlay.active {
+      display: block;
+    }
+
+    @keyframes spotlight-rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .search-results-overlay::-webkit-scrollbar {
+      width: 6px;
+    }
+    .search-results-overlay::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .search-results-overlay::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 99px;
+    }
+
+    .search-item {
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel-strong);
+      background: color-mix(in srgb, var(--panel-strong) 85%, transparent);
+      padding: 12px 14px;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .search-item:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: translateY(-1px);
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin: 6px 0 0;
+      line-height: 1.4;
+    }
+
+    footer {
+      max-width: 1550px;
+      margin: 0 auto;
+      padding: 8px 24px 24px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+    }
+
+    @media (max-width: 900px) {
+      .layout.hide-left .sidebar {
+        display: none;
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+      }
+      .search-wrap {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .layout {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+      }
+      .sidebar,
+      .main {
+        width: 100%;
+      }
+      .main {
+        order: 1;
+      }
+      .sidebar {
+        order: 2;
+      }
+      .lesson-list {
+        max-height: 240px;
+      }
+      .section-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .section-toolbar > div {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .btn {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body data-theme="day">
+  <div class="bg-orb a"></div>
+  <div class="bg-orb b"></div>
+
+  <div class="app">
+    <header class="topbar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button id="toggleLeftBtn" class="btn" title="Toggle Syllabus">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        </button>
+        <div class="brand">Python for <span>AI</span> Course Runner</div>
+      </div>
+      <div class="search-wrap">
+        <input id="searchInput" class="search" placeholder="Search concepts: loops, csv, api, functions..." autocomplete="off">
+        <div id="searchResults" class="search-results-overlay"><p class="empty">Type at least 2 letters to search.</p></div>
+        <button id="themeToggle" class="btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> Switch to Night</button>
+      </div>
+    </header>
+
+    <div class="layout hide-right hide-left">
+      <aside class="sidebar">
+        <section class="card" style="margin-bottom: 20px;">
+          <h2 class="course-title" id="courseTitle">Python for AI</h2>
+          <p class="course-subtitle" id="courseSubtitle">Browser-first, beginner-comfort learning path</p>
+          <div id="courseStats" class="stat-grid">
+        <div class="stat"><span class="value">6</span><span class="label">Done</span></div>
+        <div class="stat"><span class="value">41</span><span class="label">Lessons</span></div>
+        <div class="stat"><span class="value">16h 10m</span><span class="label">Duration</span></div>
+      </div>
+          <div class="progress-shell"><div id="progressFill" class="progress-fill" style="width: 15%;"></div></div>
+          <p id="courseStatus" class="status">15% complete - comfortable pace for beginners.</p>
+        </section>
+
+        <section class="card">
+          <h3 class="heading">Syllabus</h3>
+          <div id="lessonList" class="lesson-list">
+          <div class="module-group " data-module-id="01">
+            <div class="module-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="flex: 1; padding-right: 8px;">
+                <span class="module-eyebrow">Module 1</span>
+                <h4 class="module-title">Python Programming</h4>
+              </div>
+              <svg class="module-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.25s ease; transform: rotate(0deg); color: var(--muted); flex-shrink: 0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div class="module-lessons">
+              
+            <button class="lesson-item " data-slug="00-getting-started">
+              <div class="lesson-top">
+                <strong>Lesson 1.0</strong>
+                <span class="badge done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Done</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Getting Started</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 15 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item active" data-slug="01-hello-world">
+              <div class="lesson-top">
+                <strong>Lesson 1.1</strong>
+                <span class="badge done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Done</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Hello, World!</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 15 minutes • 13 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="01-shell-navigation">
+              <div class="lesson-top">
+                <strong>Lesson 1.1</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Shell Navigation &amp; Command Line Basics</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner-Intermediate • 20 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="01-http-protocol">
+              <div class="lesson-top">
+                <strong>Lesson 1.1</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Service Layers &amp; The HTTP Protocol</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner-Intermediate • 20 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="01-core-concepts">
+              <div class="lesson-top">
+                <strong>Lesson 1.1</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Containerization &amp; Core Docker Concepts</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner-Intermediate • 20 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="01-llm-api-clients">
+              <div class="lesson-top">
+                <strong>Lesson 1.1</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Robust LLM API Clients &amp; Reliability</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="01-tool-calling">
+              <div class="lesson-top">
+                <strong>Lesson 1.1</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">LLM Tool Calling &amp; Function Binding</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 7 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="01-llmops-tracing">
+              <div class="lesson-top">
+                <strong>Lesson 1.1</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Observability &amp; Pipeline Tracing (LLMOps)</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate-Advanced • 20 minutes • 6 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="02-variables">
+              <div class="lesson-top">
+                <strong>Lesson 1.2</strong>
+                <span class="badge done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Done</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Variables and Comments</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 20 minutes • 16 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="02-paths-permissions">
+              <div class="lesson-top">
+                <strong>Lesson 1.2</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Paths, Environments &amp; Permissions</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="02-pydantic-validation">
+              <div class="lesson-top">
+                <strong>Lesson 1.2</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Data Schemas &amp; Validation with Pydantic</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 7 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="02-writing-dockerfile">
+              <div class="lesson-top">
+                <strong>Lesson 1.2</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Writing a Dockerfile &amp; Cache Optimization</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="02-structured-outputs">
+              <div class="lesson-top">
+                <strong>Lesson 1.2</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Structured Outputs &amp; JSON Self-Correction</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 7 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="02-react-loop">
+              <div class="lesson-top">
+                <strong>Lesson 1.2</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">The ReAct Loop (Autonomous Agent Foundations)</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate-Advanced • 25 minutes • 7 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="02-cicd-github-actions">
+              <div class="lesson-top">
+                <strong>Lesson 1.2</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Continuous Integration &amp; GitHub Actions</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate-Advanced • 20 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="03-data-types">
+              <div class="lesson-top">
+                <strong>Lesson 1.3</strong>
+                <span class="badge done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Done</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Data Types</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 25 minutes • 12 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="03-git-version-control">
+              <div class="lesson-top">
+                <strong>Lesson 1.3</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Git &amp; Version Control (Handling Conflicts)</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 9 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="03-async-await">
+              <div class="lesson-top">
+                <strong>Lesson 1.3</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Concurrency with Async/Await (Event Loops)</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="03-docker-cli">
+              <div class="lesson-top">
+                <strong>Lesson 1.3</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Managing Containers with Docker CLI</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 7 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="03-chunking-embeddings">
+              <div class="lesson-top">
+                <strong>Lesson 1.3</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Chunking Strategies &amp; Vector Embeddings</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 7 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="03-stateful-management">
+              <div class="lesson-top">
+                <strong>Lesson 1.3</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Stateful Agent Management &amp; Memory</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate-Advanced • 20 minutes • 7 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="03-cloud-deployment">
+              <div class="lesson-top">
+                <strong>Lesson 1.3</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Cloud Deployment &amp; Zero-Downtime Operations</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate-Advanced • 25 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="04-operators">
+              <div class="lesson-top">
+                <strong>Lesson 1.4</strong>
+                <span class="badge done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Done</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Operators</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 25 minutes • 14 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="04-context-driven-ai">
+              <div class="lesson-top">
+                <strong>Lesson 1.4</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Context-Driven AI (Codebase Packaging)</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 11 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="04-fastapi-routers">
+              <div class="lesson-top">
+                <strong>Lesson 1.4</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Building APIs with FastAPI &amp; Routers</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 6 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="04-docker-compose">
+              <div class="lesson-top">
+                <strong>Lesson 1.4</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Multi-Service Orchestration with Docker Compose</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 20 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="04-vector-databases">
+              <div class="lesson-top">
+                <strong>Lesson 1.4</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Vector Databases (Local Search with ChromaDB)</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 8 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="05-string-manipulation">
+              <div class="lesson-top">
+                <strong>Lesson 1.5</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">String Manipulation</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 30 minutes • 19 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="06-if-statements">
+              <div class="lesson-top">
+                <strong>Lesson 1.6</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">If Statements (Control Flow)</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 25 minutes • 16 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="07-loops">
+              <div class="lesson-top">
+                <strong>Lesson 1.7</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Loops</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 30 minutes • 17 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="08-lists">
+              <div class="lesson-top">
+                <strong>Lesson 1.8</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Lists</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner to Intermediate • 30 minutes • 16 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="09-dictionaries">
+              <div class="lesson-top">
+                <strong>Lesson 1.9</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Dictionaries</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner to Intermediate • 30 minutes • 19 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="10-tuples">
+              <div class="lesson-top">
+                <strong>Lesson 1.10</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Tuples</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 20 minutes • 15 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="11-sets">
+              <div class="lesson-top">
+                <strong>Lesson 1.11</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Sets</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner • 20 minutes • 15 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="12-functions-basics">
+              <div class="lesson-top">
+                <strong>Lesson 1.12</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Functions -- Basics</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Beginner to Intermediate • 30 minutes • 17 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="13-functions-parameters">
+              <div class="lesson-top">
+                <strong>Lesson 1.13</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Functions -- Parameters</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 15 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="14-functions-return-values">
+              <div class="lesson-top">
+                <strong>Lesson 1.14</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Functions -- Return Values</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 14 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="15-packages-and-modules">
+              <div class="lesson-top">
+                <strong>Lesson 1.15</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Packages and Modules</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 25 minutes • 14 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="16-working-with-apis">
+              <div class="lesson-top">
+                <strong>Lesson 1.16</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Working with APIs</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 30 minutes • 14 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="17-working-with-data">
+              <div class="lesson-top">
+                <strong>Lesson 1.17</strong>
+                <span class="badge">In progress</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Working with Data</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 35 minutes • 17 steps</div>
+            </button>
+          
+            <button class="lesson-item " data-slug="18-practical-python">
+              <div class="lesson-top">
+                <strong>Lesson 1.18</strong>
+                <span class="badge done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Done</span>
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">Practical Python</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">Intermediate • 35 minutes • 16 steps</div>
+            </button>
+          
+            </div>
+          </div>
+        </div>
+        </section>
+      </aside>
+
+      <main class="main">
+        <section id="hero" class="card hero">
+        <p class="eyebrow">Lesson 01 • Beginner • 15 minutes</p>
+        <h1>Hello, World!</h1>
+        <p>In this lesson you will learn How the print() function works; Printing text, numbers, and multiple values; Escape characters (newlines, tabs). print() is your primary debugging tool. When your AI model gives unexpected results, you will print intermediate values to figure out what went wrong. Mastering output is step one.</p>
+        <div class="hero-callout">
+          <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); margin-bottom: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            Real-life anchor
+          </div>
+          Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.
+        </div>
+        <div class="goal-wrap"><span class="goal">How the print() function works</span><span class="goal">Printing text, numbers, and multiple values</span><span class="goal">Escape characters (newlines, tabs)</span><span class="goal">Getting input from the user</span><span class="goal">The difference between a script and interactive execution</span></div>
+      </section>
+
+        <section class="card">
+          <div class="section-toolbar">
+            <h2>Guided Walkthrough</h2>
+            <div>
+              <button id="markCompleteBtn" class="btn primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span>Mark Lesson Incomplete</span></button>
+              <button id="prevLessonBtn" class="btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Previous</span>
+              </button>
+              <button id="nextLessonBtn" class="btn">
+                <span>Next</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+          </div>
+          <div id="sectionList" class="section-list">
+          <article class="section-card" id="section-1">
+            <div class="section-header">
+              <h3>YOUR FIRST PROGRAM</h3>
+              <span class="step-pill pill-theory">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                Step 1 • Concept
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>By tradition, the first program anyone writes in a new language prints "Hello, World!" to the screen. This tradition goes back to 1978.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>By tradition, the first program anyone writes in a new language prints<br>"Hello, World!" to the screen. This tradition goes back to 1978.</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("Hello, World!")</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+          </article>
+        
+          <article class="section-card" id="section-2">
+            <div class="section-header">
+              <h3>HOW print() WORKS</h3>
+              <span class="step-pill pill-theory">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                Step 2 • Concept
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>print() is a FUNCTION. A function is a reusable block of code that does something specific.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>print() is a FUNCTION. A function is a reusable block of code that does<br>something specific. Python comes with many built-in functions, and print()<br>is the most basic one.</p><p>The structure is:<br>print(what_you_want_to_display)</p><p>The parentheses are mandatory. The thing inside them is called an ARGUMENT.</p><p>You can print text (called "strings" -- we will cover this in depth later):</p></div><div class="text-block"><p>You can print numbers:</p></div><div class="text-block"><p>You can print the result of calculations:</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("I am learning Python for AI")</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 2</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print(42)
+print(3.14159)</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 3</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print(2 + 2)
+print(100 * 365)</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+          </article>
+        
+          <article class="section-card" id="section-3">
+            <div class="section-header">
+              <h3>PRINTING MULTIPLE VALUES</h3>
+              <span class="step-pill pill-theory">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                Step 3 • Concept
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>You can give print() multiple arguments separated by commas. Python will put a space between each one automatically.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like a contacts app: each name (key) maps to a phone number (value).</p>
+            </div>
+
+            <div class="text-block"><p>You can give print() multiple arguments separated by commas.<br>Python will put a space between each one automatically.</p></div><div class="text-block"><p>The sep parameter changes what goes between values (default is a space):</p></div><div class="text-block"><p>The end parameter changes what goes at the end (default is a newline):</p></div><div class="text-block"><p>Output: Loading... Done!  (all on one line)</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("My name is", "Prawin")
+print("I am", 22, "years old")
+print("Python version:", 3.12)</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 2</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("2026", "04", "10", sep="-")     # Output: 2026-04-10
+print("usr", "local", "bin", sep="/")  # Output: usr/local/bin</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 3</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("Loading", end="")
+print("...", end="")
+print(" Done!")</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+          </article>
+        
+          <article class="section-card" id="section-4">
+            <div class="section-header">
+              <h3>QUOTES: SINGLE vs DOUBLE</h3>
+              <span class="step-pill pill-theory">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                Step 4 • Concept
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>Python accepts both single quotes and double quotes for text. They are identical in behavior.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>Python accepts both single quotes and double quotes for text. They are<br>identical in behavior. Choose one style and stick with it.</p></div><div class="text-block"><p>When your text contains a quote character, use the other type:</p></div><div class="text-block"><p>For text that spans multiple lines, use triple quotes:</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("Hello")   # double quotes
+print('Hello')   # single quotes -- exact same result</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 2</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("It's a beautiful day")    # text has single quote, use double outside
+print('She said "hello"')        # text has double quotes, use single outside</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 3</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("""This is a
+multi-line
+string""")</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+          </article>
+        
+          <article class="section-card" id="section-5">
+            <div class="section-header">
+              <h3>ESCAPE CHARACTERS</h3>
+              <span class="step-pill pill-theory">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                Step 5 • Concept
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>Sometimes you need to include special characters in your text. You do this with a backslash (\) followed by a character: \n = newline (moves to next line) \t = tab (indentation) \\ = actual backslash \' = single quote inside single-quoted string \" = double quote inside...</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>Sometimes you need to include special characters in your text. You do this<br>with a backslash (\) followed by a character:</p><p>\n  = newline (moves to next line)<br>\t  = tab (indentation)<br>\\  = actual backslash<br>\'  = single quote inside single-quoted string<br>\"  = double quote inside double-quoted string</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("Line one\nLine two\nLine three")
+print("Name:\tAlice\nAge:\t30")
+print('It\'s Python')
+print("Path: C:\\Users\\Documents")</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+          </article>
+        
+          <article class="section-card" id="section-6">
+            <div class="section-header">
+              <h3>GETTING USER INPUT</h3>
+              <span class="step-pill pill-theory">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                Step 6 • Concept
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>The input() function pauses the program and waits for the user to type something. Whatever they type becomes a string value.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>The input() function pauses the program and waits for the user to type<br>something. Whatever they type becomes a string value.</p><p>NOTE: input() needs an active prompt where the user can type a response.<br>If no prompt is visible in your setup, you can skip this section for now.</p><p>Uncomment the lines below to try (select all 3 lines and run):<br>name = input("What is your name? ")<br>print("Hello,", name)<br>print("Welcome to Python for AI!")</p><p>IMPORTANT: input() ALWAYS returns a string, even if the user types a number.<br>We will learn how to convert types in lesson 03.</p></div>
+            
+          </article>
+        
+          <article class="section-card" id="section-7">
+            <div class="section-header">
+              <h3>COMMENTS</h3>
+              <span class="step-pill pill-theory">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                Step 7 • Concept
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>Lines starting with # are COMMENTS. Python ignores them completely.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>Lines starting with # are COMMENTS. Python ignores them completely.<br>Comments are notes for humans reading the code.</p><p>This is a comment -- Python skips this line</p></div><div class="text-block"><p>Good comments explain WHY, not WHAT:<br>Bad:  # print hello<br>Good: # greet the user when the program starts</p><p>In AI code, comments are crucial for explaining:<br>- Why you chose certain model parameters<br>- What a complex data transformation does<br>- Assumptions your code makes about the input data</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("This line runs")  # You can also put comments at the end of a line</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+          </article>
+        
+          <article class="section-card" id="section-8">
+            <div class="section-header">
+              <h3>REAL-WORLD EXAMPLE: SIMPLE AI OUTPUT</h3>
+              <span class="step-pill pill-realworld">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                Step 8 • Real World
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>Imagine you are building a simple AI assistant. Even the most advanced chatbot ultimately needs to print its response to the user: This pattern -- receiving input, processing it, and printing output -- is the fundamental loop of every AI application, from ChatGPT to...</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>Imagine you are building a simple AI assistant. Even the most advanced<br>chatbot ultimately needs to print its response to the user:</p></div><div class="text-block"><p>This pattern -- receiving input, processing it, and printing output --<br>is the fundamental loop of every AI application, from ChatGPT to<br>self-driving cars.</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>user_question = "What is the weather today?"
+ai_response = "Based on current data, it is 24 degrees and sunny."
+
+print("User:", user_question)
+print("AI:", ai_response)
+print("-" * 50)  # Print a separator line (- repeated 50 times. String multiplication is covered in 04_operators.py)</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            
+          </article>
+        
+          <article class="section-card" id="section-9">
+            <div class="section-header">
+              <h3>COMMON MISTAKES</h3>
+              <span class="step-pill pill-warning">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                Step 9 • Common Mistake
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>MISTAKE 1: Forgetting the parentheses Wrong: print "Hello" # This is Python 2 syntax, it does NOT work in Python 3 Right: MISTAKE 2: Mismatched quotes Wrong: print("Hello') # Started with double, ended with single Right: MISTAKE 3: Forgetting to close the string Wrong:...</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>MISTAKE 1: Forgetting the parentheses<br>Wrong:<br>print "Hello"    # This is Python 2 syntax, it does NOT work in Python 3<br>Right:</p></div><div class="text-block"><p>MISTAKE 2: Mismatched quotes<br>Wrong:<br>print("Hello')   # Started with double, ended with single<br>Right:</p></div><div class="text-block"><p>MISTAKE 3: Forgetting to close the string<br>Wrong:<br>print("Hello)    # Missing closing quote<br>Right:</p></div>
+            
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example 1</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>print("Hello")</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            <div class="repeat-note">Repeated example detected. Focus on the new explanation in this step instead of re-reading identical code.</div><div class="repeat-note">Repeated example detected. Focus on the new explanation in this step instead of re-reading identical code.</div>
+          </article>
+        
+          <article class="section-card" id="section-10">
+            <div class="section-header">
+              <h3>EXERCISES</h3>
+              <span class="step-pill pill-exercise">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Step 10 • Exercise
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>Try these yourself before looking at the solutions below. Exercise 1: Print your full name on one line.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>Try these yourself before looking at the solutions below.</p><p>Exercise 1: Print your full name on one line.</p><p>Exercise 2: Print your name, age, and city using a single print() statement<br>with commas.</p><p>Exercise 3: Print the following pattern using \n and \t:<br>Name:    Alice<br>Age:     30<br>City:    New York</p><p>Exercise 4: Print a line of 40 asterisks (*) using the * operator on a string.</p><p>Exercise 5: Print a date in YYYY/MM/DD format using sep="/".</p></div>
+            
+          </article>
+        
+          <article class="section-card" id="section-11">
+            <div class="section-header">
+              <h3>SOLUTIONS</h3>
+              <span class="step-pill pill-solution">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                Step 11 • Solution
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>(Try the exercises yourself first!) Exercise 1: print("Prawin Kumar") Exercise 2: print("Prawin", 22, "Bokaro") Exercise 3: print("Name:\tAlice\nAge:\t30\nCity:\tNew York") Exercise 4: print("*" * 40) Exercise 5: print("2026", "04", "10", sep="/")</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>(Try the exercises yourself first!)</p><p>Exercise 1:<br>print("Prawin Kumar")</p><p>Exercise 2:<br>print("Prawin", 22, "Bokaro")</p><p>Exercise 3:<br>print("Name:\tAlice\nAge:\t30\nCity:\tNew York")</p><p>Exercise 4:<br>print("*" * 40)</p><p>Exercise 5:<br>print("2026", "04", "10", sep="/")</p></div>
+            
+          </article>
+        
+          <article class="section-card" id="section-12">
+            <div class="section-header">
+              <h3>KEY TAKEAWAYS</h3>
+              <span class="step-pill pill-takeaway">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Step 12 • Key Point
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>- print() displays output to the screen - You can print strings, numbers, and expressions - Use commas to print multiple values with automatic spacing - Use sep and end parameters to control formatting - Comments (#) are for humans, Python ignores them - input() reads text...</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like a contacts app: each name (key) maps to a phone number (value).</p>
+            </div>
+
+            <div class="text-block"><ul><li>print() displays output to the screen</li><li>You can print strings, numbers, and expressions</li><li>Use commas to print multiple values with automatic spacing</li><li>Use sep and end parameters to control formatting</li><li>Comments (#) are for humans, Python ignores them</li><li>input() reads text from the user (always returns a string)</li><li>Escape characters (\n, \t, \\) let you include special characters</li></ul></div>
+            
+          </article>
+        
+          <article class="section-card" id="section-13">
+            <div class="section-header">
+              <h3>WHAT'S NEXT?</h3>
+              <span class="step-pill pill-next">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                Step 13 • Next Step
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>In the next lesson (02_variables.py), you will learn how to store data in variables -- giving names to values so you can use them throughout your program. This is how every AI program manages its data.</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>Like learning to drive: first understand one control at a time, then combine them into smooth real-world action.</p>
+            </div>
+
+            <div class="text-block"><p>In the next lesson (02_variables.py), you will learn how to store data in<br>variables -- giving names to values so you can use them throughout your<br>program. This is how every AI program manages its data.</p></div>
+            
+          </article>
+        </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      Python for AI Course Runner • Designed with premium accessibility and browser-first momentum
+    </footer>
+  </div>
+
+  <script>
+    const state = {
+      course: null,
+      lessons: [],
+      progress: null,
+      benchmarks: [],
+      currentLessonSlug: "",
+      lessonCache: new Map(),
+    };
+
+    const refs = {
+      searchInput: document.getElementById("searchInput"),
+      themeToggle: document.getElementById("themeToggle"),
+      courseTitle: document.getElementById("courseTitle"),
+      courseSubtitle: document.getElementById("courseSubtitle"),
+      courseStats: document.getElementById("courseStats"),
+      progressFill: document.getElementById("progressFill"),
+      courseStatus: document.getElementById("courseStatus"),
+      lessonList: document.getElementById("lessonList"),
+      hero: document.getElementById("hero"),
+      sectionList: document.getElementById("sectionList"),
+      markCompleteBtn: document.getElementById("markCompleteBtn"),
+      prevLessonBtn: document.getElementById("prevLessonBtn"),
+      nextLessonBtn: document.getElementById("nextLessonBtn"),
+      searchResults: document.getElementById("searchResults"),
+    };
+
+    let searchTimer = null;
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function sectionTypeLabel(kind) {
+      const map = {
+        theory: "Concept",
+        exercise: "Exercise",
+        solution: "Solution",
+        takeaway: "Key Point",
+        warning: "Common Mistake",
+        realworld: "Real World",
+        next: "Next Step",
+      };
+      return map[kind] || "Concept";
+    }
+
+    function getPillIcon(kind) {
+      const map = {
+        theory: `<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>`,
+        exercise: `<polygon points="5 3 19 12 5 21 5 3"/>`,
+        solution: `<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`,
+        takeaway: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+        warning: `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`,
+        realworld: `<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>`,
+        next: `<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>`,
+      };
+      return map[kind] || `<circle cx="12" cy="12" r="10"/>`;
+    }
+
+    function formatTextBlock(text) {
+      const chunks = text.split(/\n\n+/).map(chunk => chunk.trim()).filter(Boolean);
+      if (!chunks.length) { return ""; }
+      return chunks.map(chunk => {
+        const lines = chunk.split("\n").map(line => line.trim()).filter(Boolean);
+        if (!lines.length) { return ""; }
+        if (lines.every(line => line.startsWith("- "))) {
+          const items = lines.map(line => `<li>${escapeHtml(line.slice(2))}</li>`).join("");
+          return `<ul>${items}</ul>`;
+        }
+        return `<p>${lines.map(line => escapeHtml(line)).join("<br>")}</p>`;
+      }).join("");
+    }
+
+    function applyTheme(theme, persist = true) {
+      const next = theme === "night" ? "night" : "day";
+      document.body.setAttribute("data-theme", next);
+      refs.themeToggle.innerHTML = next === "night" 
+        ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Switch to Day`
+        : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Switch to Night`;
+
+      if (persist) {
+        localStorage.setItem("py4ai-theme", next);
+        updateProgress({ theme: next }, false).catch(() => {});
+      }
+    }
+
+
+
+    function renderCourseSummary() {
+      refs.courseTitle.textContent = state.course.title;
+      refs.courseSubtitle.textContent = state.course.subtitle;
+      const completed = state.progress.completed.length;
+      const total = state.lessons.length || 1;
+      const percent = Math.round((completed / total) * 100);
+      refs.courseStats.innerHTML = `
+        <div class="stat"><span class="value">${completed}</span><span class="label">Done</span></div>
+        <div class="stat"><span class="value">${state.lessons.length}</span><span class="label">Lessons</span></div>
+        <div class="stat"><span class="value">${state.course.estimated_duration}</span><span class="label">Duration</span></div>
+      `;
+      refs.progressFill.style.width = `${percent}%`;
+      refs.courseStatus.textContent = `${percent}% complete - comfortable pace for beginners.`;
+    }
+
+    function renderLessonList() {
+      const completedSet = new Set(state.progress.completed);
+      
+      // Group lessons by module
+      const modules = {};
+      state.lessons.forEach(lesson => {
+        const modId = lesson.module ? lesson.module.id : "01";
+        const modTitle = lesson.module ? lesson.module.title : "Python Programming";
+        if (!modules[modId]) {
+          modules[modId] = { id: modId, title: modTitle, lessons: [] };
+        }
+        modules[modId].lessons.push(lesson);
+      });
+
+      // Render grouped layout
+      refs.lessonList.innerHTML = Object.values(modules).map(mod => {
+        const isModuleActive = mod.lessons.some(lesson => lesson.slug === state.currentLessonSlug);
+        const collapseClass = isModuleActive ? "" : "collapsed";
+        const arrowRotation = isModuleActive ? "rotate(0deg)" : "rotate(-90deg)";
+
+        const lessonsHtml = mod.lessons.map(lesson => {
+          const activeClass = lesson.slug === state.currentLessonSlug ? "active" : "";
+          const displayNum = `${parseInt(mod.id)}.${parseInt(lesson.number)}`;
+          const isCompleted = completedSet.has(lesson.slug);
+          
+          let doneBadge = isCompleted 
+            ? `<span class="badge done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Done</span>` 
+            : `<span class="badge">In progress</span>`;
+
+          return `
+            <button class="lesson-item ${activeClass}" data-slug="${escapeHtml(lesson.slug)}">
+              <div class="lesson-top">
+                <strong>Lesson ${escapeHtml(displayNum)}</strong>
+                ${doneBadge}
+              </div>
+              <div class="lesson-title" style="font-family: var(--font-heading); font-weight: 700; margin-top: 4px; line-height: 1.25;">${escapeHtml(lesson.title)}</div>
+              <div class="meta" style="font-size: 0.76rem; color: var(--muted); margin-top: 2px;">${escapeHtml(lesson.difficulty)} • ${escapeHtml(lesson.estimated_time)} • ${lesson.section_count} steps</div>
+            </button>
+          `;
+        }).join("");
+
+        return `
+          <div class="module-group ${collapseClass}" data-module-id="${mod.id}">
+            <div class="module-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="flex: 1; padding-right: 8px;">
+                <span class="module-eyebrow">Module ${parseInt(mod.id)}</span>
+                <h4 class="module-title">${escapeHtml(mod.title)}</h4>
+              </div>
+              <svg class="module-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.25s ease; transform: ${arrowRotation}; color: var(--muted); flex-shrink: 0;"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="module-lessons">
+              ${lessonsHtml}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // Bind Collapsible click events to module headers
+      refs.lessonList.querySelectorAll(".module-header").forEach(header => {
+        header.addEventListener("click", () => {
+          const group = header.closest(".module-group");
+          group.classList.toggle("collapsed");
+          
+          const arrow = header.querySelector(".module-arrow");
+          if (arrow) {
+            if (group.classList.contains("collapsed")) {
+              arrow.style.transform = "rotate(-90deg)";
+            } else {
+              arrow.style.transform = "rotate(0deg)";
+            }
+          }
+        });
+      });
+
+      refs.lessonList.querySelectorAll(".lesson-item").forEach(button => {
+        button.addEventListener("click", async () => { await loadLesson(button.dataset.slug); });
+      });
+    }
+
+    function updateNavigationButtons() {
+      const index = state.lessons.findIndex(lesson => lesson.slug === state.currentLessonSlug);
+      refs.prevLessonBtn.disabled = index <= 0;
+      refs.nextLessonBtn.disabled = index < 0 || index >= state.lessons.length - 1;
+      const isDone = state.progress.completed.includes(state.currentLessonSlug);
+      refs.markCompleteBtn.innerHTML = isDone 
+        ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> <span>Mark Lesson Incomplete</span>`
+        : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> <span>Mark Lesson Complete</span>`;
+    }
+
+    function renderHero(lesson) {
+      const goals = (lesson.learning_goals || []).map(goal => `<span class="goal">${escapeHtml(goal)}</span>`).join("");
+      refs.hero.innerHTML = `
+        <p class="eyebrow">Lesson ${escapeHtml(lesson.number)} • ${escapeHtml(lesson.difficulty)} • ${escapeHtml(lesson.estimated_time)}</p>
+        <h1>${escapeHtml(lesson.title)}</h1>
+        <p>${escapeHtml(lesson.plain_intro)}</p>
+        <div class="hero-callout">
+          <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); margin-bottom: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Real-life anchor
+          </div>
+          ${escapeHtml(lesson.real_life_anchor)}
+        </div>
+        <div class="goal-wrap">${goals || '<span class="goal">Practical progress</span>'}</div>
+      `;
+    }
+
+    function renderSections(lesson) {
+      refs.sectionList.innerHTML = lesson.sections.map(section => {
+        const textBlocks = section.blocks
+          .filter(block => block.type === "text")
+          .map(block => `<div class="text-block">${formatTextBlock(block.content)}</div>`)
+          .join("");
+
+        const codeBlocks = section.blocks
+          .filter(block => block.type === "code")
+          .map((block, idx) => {
+            if (block.is_repeated) {
+              return `<div class="repeat-note">Repeated example detected. Focus on the new explanation in this step instead of re-reading identical code.</div>`;
+            }
+
+            return `
+              <details class="code">
+                <summary>
+                  <div class="summary-left">
+                    <div class="terminal-dots">
+                      <div class="terminal-dot red"></div>
+                      <div class="terminal-dot yellow"></div>
+                      <div class="terminal-dot green"></div>
+                    </div>
+                    <span>Show Python Example ${idx + 1}</span>
+                  </div>
+                  <div class="summary-right">
+                    <span class="tech-badge">python</span>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  </div>
+                </summary>
+                <div class="code-shell">
+                  <pre><code>${escapeHtml(block.content)}</code></pre>
+                  <button class="copy-btn" type="button">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Copy
+                  </button>
+                </div>
+              </details>
+            `;
+          })
+          .join("");
+
+        return `
+          <article class="section-card" id="section-${section.id}">
+            <div class="section-header">
+              <h3>${escapeHtml(section.title)}</h3>
+              <span class="step-pill pill-${section.type}">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">${getPillIcon(section.type)}</svg>
+                Step ${section.id} • ${escapeHtml(sectionTypeLabel(section.type))}
+              </span>
+            </div>
+
+            <div class="mini-box simple-words">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <h4>In simple words</h4>
+              </div>
+              <p>${escapeHtml(section.plain_explanation)}</p>
+            </div>
+
+            <div class="mini-box real-life">
+              <div class="mini-box-header">
+                <svg class="mini-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <h4>Real-life example</h4>
+              </div>
+              <p>${escapeHtml(section.real_life_example)}</p>
+            </div>
+
+            ${textBlocks}
+            ${codeBlocks}
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function fetchLesson(slug) {
+      if (state.lessonCache.has(slug)) {
+        return state.lessonCache.get(slug);
+      }
+
+      const response = await fetch(`/api/lesson/${encodeURIComponent(slug)}`);
+      if (!response.ok) {
+        throw new Error("Could not load lesson.");
+      }
+
+      const payload = await response.json();
+      state.lessonCache.set(slug, payload.lesson);
+      return payload.lesson;
+    }
+
+    async function loadLesson(slug, focusSectionId = null) {
+      const lesson = await fetchLesson(slug);
+      state.currentLessonSlug = lesson.slug;
+
+      renderHero(lesson);
+      renderSections(lesson);
+      renderLessonList();
+      updateNavigationButtons();
+
+      updateProgress({ last_lesson: slug }, false).catch(() => {});
+
+      if (focusSectionId) {
+        const target = document.getElementById(`section-${focusSectionId}`);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+
+    async function updateProgress(payload, rerender = true) {
+      const response = await fetch("/api/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+      state.progress = data.progress;
+
+      if (rerender) {
+        renderCourseSummary();
+        renderLessonList();
+        updateNavigationButtons();
+      }
+    }
+
+    async function toggleCompletion() {
+      if (!state.currentLessonSlug) {
+        return;
+      }
+
+      const isDone = state.progress.completed.includes(state.currentLessonSlug);
+      if (isDone) {
+        await updateProgress({ uncomplete_lesson: state.currentLessonSlug, last_lesson: state.currentLessonSlug });
+      } else {
+        await updateProgress({ complete_lesson: state.currentLessonSlug, last_lesson: state.currentLessonSlug });
+      }
+    }
+
+    async function moveLesson(offset) {
+      const index = state.lessons.findIndex(lesson => lesson.slug === state.currentLessonSlug);
+      if (index < 0) {
+        return;
+      }
+      const target = state.lessons[index + offset];
+      if (!target) {
+        return;
+      }
+      await loadLesson(target.slug);
+    }
+
+    async function performSearch(query) {
+      if (query.trim().length < 2) {
+        refs.searchResults.innerHTML = '<p class="empty" style="margin: 0; padding: 10px; font-size: 0.88rem; color: var(--muted); text-align: center;">Type at least 2 letters to search.</p>';
+        refs.searchResults.classList.remove("active");
+        return;
+      }
+
+      refs.searchResults.classList.add("active");
+      refs.searchResults.innerHTML = '<p class="empty" style="margin: 0; padding: 10px; font-size: 0.88rem; color: var(--muted); text-align: center;">Searching...</p>';
+
+      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      if (!response.ok) {
+        refs.searchResults.innerHTML = '<p class="empty" style="margin: 0; padding: 10px; font-size: 0.88rem; color: var(--muted); text-align: center;">Search unavailable.</p>';
+        return;
+      }
+
+      const data = await response.json();
+      if (!data.results.length) {
+        refs.searchResults.innerHTML = '<p class="empty" style="margin: 0; padding: 10px; font-size: 0.88rem; color: var(--muted); text-align: center;">No matching section found.</p>';
+        return;
+      }
+
+      refs.searchResults.innerHTML = data.results.map(result => `
+        <button class="search-item" data-lesson="${escapeHtml(result.lesson_slug)}" data-section="${result.section_id}" style="margin-bottom: 8px;">
+          <div class="title" style="font-family: var(--font-heading); font-weight: 700; font-size: 0.88rem; color: var(--accent);">${escapeHtml(result.lesson_title)} • ${escapeHtml(result.section_title)}</div>
+          <div class="snippet" style="font-size: 0.82rem; color: var(--muted); margin-top: 4px; line-height: 1.4;">${escapeHtml(result.snippet)}</div>
+        </button>
+      `).join("");
+
+      refs.searchResults.querySelectorAll(".search-item").forEach(button => {
+        button.addEventListener("click", async () => {
+          await loadLesson(button.dataset.lesson, Number(button.dataset.section));
+          refs.searchResults.classList.remove("active");
+          refs.searchInput.value = ""; // Clear input on selection
+        });
+      });
+    }
+
+    function bindEvents() {
+      refs.themeToggle.addEventListener("click", () => {
+        const current = document.body.getAttribute("data-theme");
+        applyTheme(current === "night" ? "day" : "night");
+      });
+
+      refs.markCompleteBtn.addEventListener("click", async () => {
+        await toggleCompletion();
+      });
+
+      refs.prevLessonBtn.addEventListener("click", async () => {
+        await moveLesson(-1);
+      });
+
+      refs.nextLessonBtn.addEventListener("click", async () => {
+        await moveLesson(1);
+      });
+
+      refs.searchInput.addEventListener("input", event => {
+        if (searchTimer) {
+          clearTimeout(searchTimer);
+        }
+        const value = event.target.value;
+        searchTimer = setTimeout(() => {
+          performSearch(value).catch(() => {});
+        }, 180);
+      });
+
+      // Close search results overlay when clicking outside
+      document.addEventListener("click", event => {
+        if (!event.target.closest(".search-wrap")) {
+          refs.searchResults.classList.remove("active");
+        }
+      });
+
+      // Close search results overlay on Escape key
+      refs.searchInput.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+          refs.searchResults.classList.remove("active");
+          refs.searchInput.blur();
+        }
+      });
+
+      refs.sectionList.addEventListener("click", async event => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+
+        const copyBtn = target.closest(".copy-btn");
+        if (!copyBtn) {
+          return;
+        }
+
+        const code = copyBtn.closest(".code-shell")?.querySelector("code")?.innerText || "";
+        if (!code) {
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(code);
+          const oldHtml = copyBtn.innerHTML;
+          copyBtn.innerHTML = `
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span style="color: #10b981;">Copied!</span>
+          `;
+          setTimeout(() => {
+            copyBtn.innerHTML = oldHtml;
+          }, 1200);
+        } catch (_) {
+          copyBtn.textContent = "Copy failed";
+        }
+      });
+
+      // Sidebar Toggles
+      const layoutEl = document.querySelector(".layout");
+      document.getElementById("toggleLeftBtn").addEventListener("click", () => {
+        layoutEl.classList.toggle("hide-left");
+      });
+    }
+
+    async function bootstrap() {
+      bindEvents();
+
+      const response = await fetch("/api/manifest");
+      if (!response.ok) {
+        throw new Error("Unable to load manifest.");
+      }
+
+      const data = await response.json();
+      state.course = data.course;
+      state.lessons = data.lessons;
+      state.progress = data.progress;
+      state.benchmarks = data.benchmarks;
+
+      renderCourseSummary();
+
+      const preferredTheme = state.progress.theme || localStorage.getItem("py4ai-theme") || "day";
+      applyTheme(preferredTheme, false);
+
+      const startSlug = state.progress.last_lesson && state.lessons.some(lesson => lesson.slug === state.progress.last_lesson)
+        ? state.progress.last_lesson
+        : state.lessons[0]?.slug;
+
+      if (startSlug) {
+        await loadLesson(startSlug);
+      }
+
+      refs.searchResults.innerHTML = '<p class="empty">Type at least 2 letters to search.</p>';
+
+      // Auto-hide panels on narrow screens
+      const layoutEl = document.querySelector(".layout");
+      if (window.innerWidth < 1300) {
+        layoutEl.classList.add("hide-right");
+      }
+      if (window.innerWidth < 1000) {
+        layoutEl.classList.add("hide-left");
+      }
+    }
+
+    bootstrap().catch(error => {
+      let debugInfo = "";
+      try {
+        for (const [key, value] of Object.entries(refs)) {
+          debugInfo += `<li><strong>refs.${key}</strong>: ${value ? "Found (" + value.tagName + ")" : "<span style='color: #ef4444;'>NULL</span>"}</li>`;
+        }
+      } catch (e) {
+        debugInfo = `Failed to introspect refs: ${e.message}`;
+      }
+      
+      refs.hero.innerHTML = `
+        <h1 style="color: var(--accent); margin-bottom: 12px;">Could not start UI</h1>
+        <p style="font-size: 1.1rem; font-weight: 500; margin-bottom: 16px;">Error: ${escapeHtml(error.message)}</p>
+        <div style="text-align: left; background: var(--bg-card); padding: 16px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 16px; max-width: 100%;">
+          <h3 style="margin-bottom: 8px; font-family: var(--font-heading);">DOM References Status:</h3>
+          <ul style="padding-left: 20px; line-height: 1.6; margin: 0; font-size: 0.9rem;">
+            ${debugInfo}
+          </ul>
+        </div>
+        <div style="text-align: left; background: var(--bg-card); padding: 16px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; max-width: 100%;">
+          <h3 style="margin-bottom: 8px; font-family: var(--font-heading);">Stack Trace:</h3>
+          <pre style="font-family: monospace; font-size: 0.8rem; margin: 0; line-height: 1.4; color: var(--muted);">${escapeHtml(error.stack || error.message)}</pre>
+        </div>
+      `;
+    });
+  </script>
+
+
+</body></html>

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-#   Python for AI — Linux Starter Script
+#   Craft with AI — Linux Starter Script
 #   Just run this file and the course will start automatically!
 #
 #   Usage:
@@ -31,11 +31,11 @@ RUNNER="$SCRIPT_DIR/course_runner.py"
 # ── Banner ──────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${PURPLE}${BOLD}"
-echo "  ╔═══════════════════════════════════════════════╗"
+echo "  ╔═════════════════════════════════════════════╗"
 echo "  ║                                               ║"
-echo "  ║     🐍  Python for AI — Course Launcher  🤖   ║"
+echo "  ║       🤖  Craft with AI — Launcher  🚀        ║"
 echo "  ║                                               ║"
-echo "  ╚═══════════════════════════════════════════════╝"
+echo "  ╚═════════════════════════════════════════════╝"
 echo -e "${NC}"
 
 # ── Step 1: Check Python ────────────────────────────────────────────────────
@@ -124,12 +124,12 @@ if [ -f "$REQUIREMENTS" ]; then
     echo -e "  ${GREEN}✅ Dependencies installed${NC}"
 else
     # Install minimum required packages
-    pip install rich -q 2>/dev/null
+    pip install requests pandas matplotlib -q 2>/dev/null
     echo -e "  ${GREEN}✅ Core dependencies installed${NC}"
 fi
 
 # ── Step 4: Launch! ─────────────────────────────────────────────────────────
-echo -e "${CYAN}[4/4]${NC} Launching Python for AI Course..."
+echo -e "${CYAN}[4/4]${NC} Launching Python for AI Browser Course..."
 echo ""
 echo -e "${GREEN}${BOLD}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""

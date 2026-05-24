@@ -1,8 +1,4 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Copyright (c) 2026 Prawin Kumar. All rights reserved.
-# Licensed under CC BY-NC-ND 4.0 — learn freely, but do not sell or rebrand.
-# See LICENSE file for full terms. GitHub: https://github.com/prawinin
-# ─────────────────────────────────────────────────────────────────────────────
+# Copyright (c) 2026 Prawin Kumar
 
 """
 ===============================================================================
@@ -24,10 +20,9 @@
 
   Estimated time: 15 minutes
 
-  How to use this file:
-    Read through the comments to understand the concepts.
-    Select code blocks and press Shift+Enter to run them in the Interactive
-    Window. Experiment by changing values and re-running.
+  How to use this lesson now:
+    Launch course_runner.py (or a starter script) to open the browser UI.
+    Learn section-by-section there, with guided explanations and examples.
 
 ===============================================================================
 """
@@ -71,8 +66,7 @@
 #   sentence as the speaker says it.
 #
 # Python is INTERPRETED. This means:
-#   - You can run code one line at a time (which is why the Interactive
-#     Window works so well)
+#   - You can run code one line at a time and immediately see results
 #   - You see results immediately
 #   - It is slower than compiled languages, but much faster to develop with
 #   - Most AI work is not bottlenecked by Python's speed because the heavy
@@ -82,7 +76,7 @@
 # === YOUR FIRST PYTHON CODE ==================================================
 #
 # The simplest thing you can do in Python is print something to the screen.
-# Select the line below and press Shift+Enter:
+# The browser runner will show this example in context:
 
 print("Welcome to Python for AI!")
 
@@ -95,7 +89,15 @@ print("Welcome to Python for AI!")
 
 # === PYTHON AS A CALCULATOR ==================================================
 #
-# Python can do math immediately. Try each of these:
+# Python can do math immediately. These symbols are called arithmetic operators:
+#
+#   +  addition       2 + 2 means "add 2 and 2"
+#   -  subtraction    100 - 37 means "take 37 away from 100"
+#   *  multiplication 15 * 4 means "15 groups of 4"
+#   /  division       10 / 3 means "split 10 into 3 equal parts"
+#
+# You will learn operators in depth later. For now, notice that Python reads
+# each expression inside print(...), calculates the answer, then displays it.
 
 print(2 + 2)
 print(100 - 37)
@@ -109,9 +111,8 @@ print(10 / 3)
 
 # === THE PYTHON INTERPRETER ===================================================
 #
-# When you press Shift+Enter, VS Code sends your code to the Python
-# INTERPRETER. The interpreter is the program that reads and executes
-# your Python code.
+# When you run Python code, it is sent to the Python INTERPRETER.
+# The interpreter is the program that reads and executes your Python code.
 #
 # You can think of the relationship like this:
 #

@@ -1,8 +1,4 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Copyright (c) 2026 Prawin Kumar. All rights reserved.
-# Licensed under CC BY-NC-ND 4.0 — learn freely, but do not sell or rebrand.
-# See LICENSE file for full terms. GitHub: https://github.com/prawinin
-# ─────────────────────────────────────────────────────────────────────────────
+# Copyright (c) 2026 Prawin Kumar
 
 """
 ===============================================================================
@@ -119,8 +115,8 @@ print("Path: C:\\Users\\Documents")
 # The input() function pauses the program and waits for the user to type
 # something. Whatever they type becomes a string value.
 #
-# NOTE: input() works best when running the file as a script (not in
-# Interactive Window). You can skip this section for now and come back later.
+# NOTE: input() needs an active prompt where the user can type a response.
+# If no prompt is visible in your setup, you can skip this section for now.
 
 # Uncomment the lines below to try (select all 3 lines and run):
 # name = input("What is your name? ")

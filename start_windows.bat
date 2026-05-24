@@ -1,18 +1,18 @@
 @echo off
 REM ============================================================================
-REM   Python for AI — Windows Starter Script
+REM   Craft with AI — Windows Starter Script
 REM   Just double-click this file and the course will start automatically!
 REM
 REM   If this doesn't work, right-click > "Run as administrator"
 REM ============================================================================
 
-title Python for AI — Course Launcher
+title Craft with AI — Launcher
 color 0B
 
 echo.
-echo   ╔═══════════════════════════════════════════════╗
+echo   ╔═════════════════════════════════════════════╗
 echo   ║                                               ║
-echo   ║     Python for AI — Course Launcher            ║
+echo   ║       🤖  Craft with AI — Launcher  🚀        ║
 echo   ║                                               ║
 echo   ╚═══════════════════════════════════════════════╝
 echo.
@@ -103,12 +103,12 @@ if exist "%~dp0requirements.txt" (
     pip install -r "%~dp0requirements.txt" -q >nul 2>nul
     echo   ✓ Dependencies installed
 ) else (
-    pip install rich -q >nul 2>nul
+    pip install requests pandas matplotlib -q >nul 2>nul
     echo   ✓ Core dependencies installed
 )
 
 REM ── Step 4: Launch! ───────────────────────────────────────────────────────
-echo [4/4] Launching Python for AI Course...
+echo [4/4] Launching Python for AI Browser Course...
 echo.
 echo   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 echo.
