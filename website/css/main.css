@@ -314,8 +314,8 @@ html.js [data-reveal].is-in {
 .hero-title {
   font-family: var(--serif);
   font-weight: 420;
-  font-size: clamp(2.7rem, 6.2vw, 4.9rem);
-  line-height: 1.04;
+  font-size: clamp(2.2rem, 6.2vw, 4.9rem);
+  line-height: 1.08;
   letter-spacing: -0.028em;
   color: var(--ink);
 }
@@ -955,6 +955,8 @@ html.js [data-reveal].is-in {
   .brand-tag { display: none; }
 
   .hero-meta { grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+  .hero-title { font-size: clamp(2rem, 9vw, 2.6rem); line-height: 1.1; }
+  .hero-sub { font-size: 1rem; margin-top: 18px; }
   .tech-strip { gap: 12px 22px; }
 
   .steps li { grid-template-columns: 60px 1fr; column-gap: 18px; }
