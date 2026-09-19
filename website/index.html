@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Craft with AI — Build Enterprise-Grade AI from Scratch</title>
+  <meta name="description" content="Craft with AI is a browser-first interactive course: 42 lessons across 7 modules, from first Python print to LLMOps. Run the whole course with one command." />
+  <meta name="theme-color" content="#FAF8F3" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Craft with AI — Build Enterprise-Grade AI from Scratch" />
+  <meta property="og:description" content="42 lessons · 7 modules · ~16 hours. Python to LLMOps in one command, in your browser." />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23C14B24'/%3E%3Cpath d='M21 10.5a7 7 0 1 0 0 11' fill='none' stroke='%23FAF8F3' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body id="top">
+
+  <!-- SVG symbol library -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs>
+      <symbol id="i-run" viewBox="0 0 24 24">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/>
+        <path d="M3.5 7.5h17M9 3.5v4"/>
+        <path d="M10 12.5L14 15l-4 2.5z"/>
+      </symbol>
+      <symbol id="i-why" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.5"/>
+        <path d="M12 11v5M12 8v.5"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24">
+        <path d="M13 2L4.5 13.5H11L10 22l8.5-11.5H12z"/>
+      </symbol>
+      <symbol id="i-hands" viewBox="0 0 24 24">
+        <path d="M12 8V4m-3 4L6.5 5.5m6 6.5l3-3"/>
+        <path d="M12 14a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM8.5 11L6 8.5M12 8a2.5 2.5 0 0 1 3 2.5"/>
+      </symbol>
+      <symbol id="i-stack" viewBox="0 0 24 24">
+        <path d="M12 3l9 4.8-9 4.8-9-4.8z"/>
+        <path d="M3 12.5l9 4.8 9-4.8M3 17l9 4.8 9-4.8"/>
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M4 12h15m0 0l-6-6m6 6l-6 6"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="M5 12.5l4.5 4.5L19 7.5"/>
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0C16.93 5.28 17.89 5.6 17.89 5.6c.62 1.58.23 2.75.11 3.04.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12 0 1.53-.01 2.76-.01 3.14 0 .3.2.67.8.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+      </symbol>
+      <symbol id="i-clone" viewBox="0 0 24 24">
+        <path d="M8 3.5h9.5a2 2 0 0 1 2 2V15M15 20.5H5.5a2 2 0 0 1-2-2V9"/>
+        <path d="M8 7.5h9.5V17M6.5 7.5H5a1.5 1.5 0 0 0-1.5 1.5v10.8"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="site-header" id="site-header">
+    <div class="wrap nav-row">
+      <a href="#top" class="brand" aria-label="Craft with AI home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="15" cy="12" r="5.5" fill="none" stroke="#FAF8F3" stroke-width="2.2" stroke-linecap="round"/><path d="M6 8.5v7" stroke="#e8b44a" stroke-width="2.4" stroke-linecap="round"/></svg>
+        </span>
+        <span class="brand-word">craft with ai</span>
+        <span class="brand-tag">interactive&nbsp;course</span>
+      </a>
+
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="#modules">Curriculum</a>
+        <a href="#method">Method</a>
+        <a href="#build">What you build</a>
+        <a href="#benchmarks">Numbers</a>
+        <a href="#start">Start here</a>
+      </nav>
+
+      <div class="nav-cta">
+        <a class="btn btn-sm btn-primary" href="https://github.com/prawinin/craft-with-ai" target="_blank" rel="noopener">
+          <svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>
+          <span class="hide-sm">View on GitHub</span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links">
+          <span></span><span></span><span></span>
+          <span class="sr-only">Menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" data-reveal>Craft with AI &nbsp;·&nbsp; interactive course &nbsp;·&nbsp; 42 lessons</p>
+          <h1 class="hero-title" data-reveal data-stagger="1">
+            Build enterprise-grade AI<br />
+            <em>from scratch.</em>
+          </h1>
+          <p class="hero-sub" data-reveal data-stagger="2">
+            42 lessons across 7 modules — Python to LLMOps — taught the way modern
+            engineers actually work: alongside an AI assistant, with code you
+            run in your browser. One command opens the whole course.
+          </p>
+          <div class="hero-cta" data-reveal data-stagger="3">
+            <a href="https://github.com/prawinin/craft-with-ai" target="_blank" rel="noopener" class="btn btn-lg btn-primary">
+              <svg class="ic" aria-hidden="true"><use href="#i-clone"/></svg>
+              Clone the course
+            </a>
+            <a href="#start" class="btn btn-lg btn-ghost">Run the launcher
+              <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+
+          <dl class="hero-meta" data-reveal data-stagger="4">
+            <div><dt>42</dt><dd>lessons</dd></div>
+            <div><dt>7</dt><dd>progressive modules</dd></div>
+            <div><dt>16h 25m</dt><dd>guided content</dd></div>
+            <div><dt>1</dt><dd>command to start</dd></div>
+          </dl>
+        </div>
+
+        <figure class="hero-fig" data-reveal data-stagger="2">
+          <div class="code-frame">
+            <div class="code-bar">
+              <span></span><span></span><span></span>
+              <span class="code-name">course_runner.py · one file</span>
+            </div>
+            <pre><code><span class="c-com"># the entire course, one command</span>
+$ ./start_linux.sh
+  ✓ python 3.10+ detected
+  ✓ virtualenv ready      .venv
+  ✓ dependencies installed
+  ✓ integrity check       license · 42 lessons
+  → serving course        <span class="c-s">http://127.0.0.1:8765</span>
+
+<span class="c-com"># your browser opens to a live, editable,
+# runnable syllabus — progress auto-saved.</span></code></pre>
+          </div>
+          <figcaption class="fig-cap">
+            The course is a single Python file. You run it, a browser UI opens
+            on localhost, and every lesson is an editable, runnable script.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="wrap">
+        <ul class="tech-strip" data-reveal>
+          <li><span class="ts-dot"></span>Python 3.10+</li>
+          <li><span class="ts-dot"></span>FastAPI</li>
+          <li><span class="ts-dot"></span>Pydantic v2</li>
+          <li><span class="ts-dot"></span>Docker</li>
+          <li><span class="ts-dot"></span>ChromaDB</li>
+          <li><span class="ts-dot"></span>OpenAI · Anthropic · Gemini</li>
+          <li><span class="ts-dot"></span>GitHub Actions</li>
+          <li><span class="ts-dot"></span>Pandas</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ CURRICULUM ============ -->
+    <section class="section" id="modules">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-reveal>Curriculum</p>
+          <h2 class="sec-title" data-reveal data-stagger="1">Seven modules,<br /><em>beginner to production.</em></h2>
+          <p class="sec-lead" data-reveal data-stagger="2">
+            The modules assume zero prior knowledge — lesson one is “Hello, World!” — and
+            end on zero-downtime cloud deployment. Each lesson is a runnable Python file
+            with a difficulty, a stated goal, and a “Why this matters for AI” section.
+          </p>
+        </div>
+
+        <dl class="mods">
+          <div class="mod" data-reveal>
+            <dt>
+              <span class="mod-num">01</span>
+            </dt>
+            <dd class="mod-main">
+              <h3>Python Programming</h3>
+              <p class="mod-meta">19 lessons · 8h 10m</p>
+              <p class="mod-desc">
+                Variables, data types, operators, strings, control flow, loops, lists,
+                dictionaries, tuples, sets, functions, modules &amp; packages — then real
+                APIs, pandas data analysis, and a practical mini-project to close it out.
+              </p>
+            </dd>
+            <dd class="mod-build">
+              <span class="b-lab">You build</span>
+              <p>A weather-data tool from a live API, and a pandas/matplotlib study that plots real dependencies.</p>
+            </dd>
+          </div>
+
+          <div class="mod" data-reveal>
+            <dt><span class="mod-num">02</span></dt>
+            <dd class="mod-main">
+              <h3>Dev Workspace</h3>
+              <p class="mod-meta">5 lessons · 1h 40m</p>
+              <p class="mod-desc">
+                The toolchain layer most bootcamps skip: the Linux shell, file paths and
+                permissions, Git local &amp; remote with merge-conflict rescue, virtual
+                environments, and packaging a codebase for LLM context.
+              </p>
+            </dd>
+            <dd class="mod-build">
+              <span class="b-lab">You build</span>
+              <p>A codebase packager that shrinks a repository into an AI-ready context prompt.</p>
+            </dd>
+          </div>
+
+          <div class="mod" data-reveal>
+            <dt><span class="mod-num">03</span></dt>
+            <dd class="mod-main">
+              <h3>APIs &amp; FastAPI</h3>
+              <p class="mod-meta">4 lessons · 1h 30m</p>
+              <p class="mod-desc">
+                The HTTP protocol, Pydantic validation, async/await concurrency, and FastAPI
+                routers with auto-generated docs — the same stack production backends use.
+              </p>
+            </dd>
+            <dd class="mod-build">
+              <span class="b-lab">You build</span>
+              <p>A FastAPI backend with validation, CORS, and live <code>/docs</code>.</p>
+            </dd>
+          </div>
+
+          <div class="mod" data-reveal>
+            <dt><span class="mod-num">04</span></dt>
+            <dd class="mod-main">
+              <h3>Containerization &amp; Docker</h3>
+              <p class="mod-meta">4 lessons · 1h 25m</p>
+              <p class="mod-desc">
+                “Works on my machine” solved for good: containers vs VMs, writing efficient
+                Dockerfiles, the Docker CLI, and multi-service orchestration with Compose.
+              </p>
+            </dd>
+            <dd class="mod-build">
+              <span class="b-lab">You build</span>
+              <p>A Dockerfile auditor, and a Compose stack wiring FastAPI to a vector database.</p>
+            </dd>
+          </div>
+
+          <div class="mod" data-reveal>
+            <dt><span class="mod-num">05</span></dt>
+            <dd class="mod-main">
+              <h3>The AI Stack</h3>
+              <p class="mod-meta">4 lessons · 1h 30m</p>
+              <p class="mod-desc">
+                Resilient LLM API clients with retry and backoff, structured JSON outputs with
+                a self-correction loop, chunking &amp; embeddings, and vector search in ChromaDB.
+              </p>
+            </dd>
+            <dd class="mod-build">
+              <span class="b-lab">You build</span>
+              <p>A working RAG retriever: documents in, top-K semantically-relevant hits out.</p>
+            </dd>
+          </div>
+
+          <div class="mod" data-reveal>
+            <dt><span class="mod-num">06</span></dt>
+            <dd class="mod-main">
+              <h3>Autonomous Systems</h3>
+              <p class="mod-meta">3 lessons · 1h 05m</p>
+              <p class="mod-desc">
+                Agents without the framework bloat: LLM tool calling, the ReAct loop
+                (Thought → Action → Observation), and stateful memory management.
+              </p>
+            </dd>
+            <dd class="mod-build">
+              <span class="b-lab">You build</span>
+              <p>A ReAct loop engine from scratch, plus a stateful agent scratchpad.</p>
+            </dd>
+          </div>
+
+          <div class="mod" data-reveal>
+            <dt><span class="mod-num">07</span></dt>
+            <dd class="mod-main">
+              <h3>Observability &amp; LLMOps</h3>
+              <p class="mod-meta">3 lessons · 1h 05m</p>
+              <p class="mod-desc">
+                The last mile: tracing and telemetry for LLM pipelines, CI/CD quality gates
+                with GitHub Actions, and cloud deployment with zero-downtime releases.
+              </p>
+            </dd>
+            <dd class="mod-build">
+              <span class="b-lab">You build</span>
+              <p>A JSON pipeline tracer, a CI audit parser, and a rolling-update simulator.</p>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ METHOD ============ -->
+    <section class="section band" id="method">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-reveal>Method</p>
+          <h2 class="sec-title" data-reveal data-stagger="1">Not another<br /><em>text-heavy bootcamp.</em></h2>
+          <p class="sec-lead" data-reveal data-stagger="2">
+            The course is engineered around how building software actually works today —
+            and around how people actually learn. Three decisions carry it.
+          </p>
+        </div>
+
+        <div class="pillars">
+          <article class="pillar" data-reveal>
+            <span class="pillar-ic" aria-hidden="true"><svg><use href="#i-run"/></svg></span>
+            <h3>Run every lesson, in the browser</h3>
+            <p>
+              Every lesson is a real, runnable Python script — there is no separate course
+              database. Each code block gets a “Try it here” panel with a 4-second sandboxed
+              runner, spotlight search, day/night mode, and progress that auto-saves.
+            </p>
+          </article>
+
+          <article class="pillar" data-reveal data-stagger="1">
+            <span class="pillar-ic" aria-hidden="true"><svg><use href="#i-hands"/></svg></span>
+            <h3>Built to build <em>with</em> AI</h3>
+            <p>
+              A dedicated workspace module teaches codebase packaging, token bloat, and
+              merge-conflict rescue — the skills that make Cursor, Copilot, and Gemini
+              genuinely useful instead of occasionally wrong.
+            </p>
+          </article>
+
+          <article class="pillar" data-reveal data-stagger="2">
+            <span class="pillar-ic" aria-hidden="true"><svg><use href="#i-why"/></svg></span>
+            <h3>Why this matters for AI</h3>
+            <p>
+              Every lesson opens with why. Real-world analogies, “In simple words” recaps,
+              and “Before you run it” notes turn syntax into mental models you can reuse
+              when orchestrating whole systems.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHAT YOU BUILD ============ -->
+    <section class="section" id="build">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-reveal>Portfolio</p>
+          <h2 class="sec-title" data-reveal data-stagger="1">What you walk away<br /><em>having built.</em></h2>
+          <p class="sec-lead" data-reveal data-stagger="2">
+            No toy exercises. Across 42 lessons you assemble a small portfolio of working
+            tools — it starts as plumbing, ends as a deployable AI system.
+          </p>
+        </div>
+
+        <ul class="builds" data-reveal>
+          <li>Weather-data tool from a live API</li>
+          <li>Codebase packager for LLM context</li>
+          <li>Validated FastAPI backend</li>
+          <li>Dockerfile auditor</li>
+          <li>FastAPI + vector-DB Compose stack</li>
+          <li>Resilient LLM client with backoff</li>
+          <li>RAG retriever over ChromaDB</li>
+          <li>ReAct loop engine from scratch</li>
+          <li>Stateful agent scratchpad</li>
+          <li>LLM pipeline tracer</li>
+          <li>CI/CD audit parser</li>
+          <li>Zero-downtime rolling-update simulator</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ BENCHMARKS ============ -->
+    <section class="section" id="benchmarks">
+      <div class="wrap">
+        <div class="sec-head row-end">
+          <div>
+            <p class="eyebrow" data-reveal>On the record</p>
+            <h2 class="sec-title" data-reveal data-stagger="1">Denoted, not<br /><em>marketed.</em></h2>
+          </div>
+          <p class="sec-note" data-reveal data-stagger="2">
+            Everything below is measured from the actual lesson files — no inflated
+            “60-hour course” claims.
+          </p>
+        </div>
+
+        <div class="sheet" data-reveal>
+          <div class="sheet-row">
+            <dt>Guided content</dt>
+            <dd>Sum of every lesson's estimated time — 985 minutes. The UI renders it live as <code>16h 25m</code>.</dd>
+            <code>985 min</code>
+          </div>
+          <div class="sheet-row">
+            <dt>Step sections</dt>
+            <dd>Every theory, exercise, warning and takeaway across the whole course, marked with a <code># ===</code> header in the source.</dd>
+            <code>464</code>
+          </div>
+          <div class="sheet-row">
+            <dt>Exercise prompts</dt>
+            <dd>Hands-on tasks with solution stubs, appended to all 41 post-intro lessons.</dd>
+            <code>248</code>
+          </div>
+          <div class="sheet-row">
+            <dt>Difficulty ladder</dt>
+            <dd>Lessons are individually graded Beginner → Advanced, so the ramp stays comfortable instead of cliff-like.</dd>
+            <code>5 levels</code>
+          </div>
+          <div class="sheet-row">
+            <dt>Runtime</dt>
+            <dd>Course, API server, and browser UI all run on Python's standard library — a single-file server on <code>127.0.0.1</code>.</dd>
+            <code>std-lib only</code>
+          </div>
+          <div class="sheet-row">
+            <dt>Integrity check</dt>
+            <dd>On launch the runner verifies the license and author headers are intact before serving a single lesson.</dd>
+            <code>gated</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ START ============ -->
+    <section class="section dark" id="start">
+      <div class="wrap">
+        <div class="sec-head sec-head-light">
+          <p class="eyebrow" data-reveal>Start here</p>
+          <h2 class="sec-title" data-reveal data-stagger="1">One command.<br /><em>You're in.</em></h2>
+          <p class="sec-note" data-reveal data-stagger="2">
+            No account, no hosted platform, no install of heavyweight tools. Python 3.8+
+            is the only prerequisite on any machine.
+          </p>
+        </div>
+
+        <div class="dev-grid">
+          <div class="code-frame" data-reveal>
+            <div class="code-bar">
+              <span></span><span></span><span></span>
+              <span class="code-name">Linux / macOS</span>
+            </div>
+            <pre><code><span class="c-com"># one script sets up venv, deps, and opens the course</span>
+$ git clone https://github.com/prawinin/craft-with-ai.git
+$ cd craft-with-ai
+$ chmod +x start_linux.sh
+$ ./start_linux.sh
+
+<span class="c-com"># Windows: double-click start_windows.bat</span>
+
+<span class="c-p">curl →</span> http://127.0.0.1:8765  <span class="c-com"># your browser, already there</span></code></pre>
+          </div>
+
+          <ol class="steps">
+            <li data-reveal>
+              <span class="step-num">STEP 01</span>
+              <h3>Clone the repo</h3>
+              <p>Dev-workspace skills start before the first lesson — you use Git and the shell the whole way through.</p>
+            </li>
+            <li data-reveal>
+              <span class="step-num">STEP 02</span>
+              <h3>Run one launcher</h3>
+              <p>The start script creates a virtualenv, installs only the handful of real deps, and verifies course integrity.</p>
+            </li>
+            <li data-reveal>
+              <span class="step-num">STEP 03</span>
+              <h3>Open your browser</h3>
+              <p>The course opens on localhost with search, day/night mode, and progress tracking from the first lesson forward.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="section dark cta">
+      <div class="wrap cta-inner">
+        <p class="eyebrow" data-reveal>Craft with AI · free to learn</p>
+        <h2 class="cta-title" data-reveal data-stagger="1">You're one<br /><em>command away.</em></h2>
+        <p class="cta-sub" data-reveal data-stagger="2">
+          42 lessons will not make a course for you. Reading them with the code
+          running in front of you might just make an AI engineer.
+        </p>
+        <div class="cta-btns" data-reveal data-stagger="3">
+          <a href="https://github.com/prawinin/craft-with-ai" target="_blank" rel="noopener" class="btn btn-lg btn-primary">
+            <svg class="ic" aria-hidden="true"><use href="#i-clone"/></svg>
+            Start on GitHub
+          </a>
+          <a href="https://github.com/prawinin/craft-with-ai#-the-curriculum" target="_blank" rel="noopener" class="btn btn-lg btn-ghost-light">Read the README</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer dark">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#top" class="brand" aria-label="Craft with AI home">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="15" cy="12" r="5.5" fill="none" stroke="#FAF8F3" stroke-width="2.2" stroke-linecap="round"/><path d="M6 8.5v7" stroke="#e8b44a" stroke-width="2.4" stroke-linecap="round"/></svg>
+            </span>
+            <span class="brand-word">craft with ai</span>
+          </a>
+          <p>
+            A browser-first course from first print to LLMOps — built alongside AI
+            assistants, for people who build alongside them.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Course</h4>
+          <ul>
+            <li><a href="#modules">Curriculum</a></li>
+            <li><a href="#method">Method</a></li>
+            <li><a href="#benchmarks">Numbers</a></li>
+            <li><a href="#start">Start here</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Source</h4>
+          <ul>
+            <li><a href="https://github.com/prawinin/craft-with-ai" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://github.com/prawinin/craft-with-ai#-the-curriculum" target="_blank" rel="noopener">README</a></li>
+            <li><a href="https://github.com/prawinin/craft-with-ai/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Also from prawin</h4>
+          <ul>
+            <li><a href="https://prawin.app" target="_blank" rel="noopener">prawin.app</a></li>
+            <li><a href="https://github.com/prawinin/vidhi" target="_blank" rel="noopener">Vidhi LLM</a></li>
+            <li><a href="https://getwrit.pages.dev" target="_blank" rel="noopener">Writ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> Prawin Kumar · Craft with AI</span>
+        <span class="footer-fine">CC BY-NC-ND 4.0 — learn freely, don't sell or rebrand.</span>
+        <span>Made by <a href="https://prawin.app" target="_blank" rel="noopener">prawin.app</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
