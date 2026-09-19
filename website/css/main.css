@@ -127,6 +127,8 @@ html.js [data-reveal].is-in {
   text-transform: uppercase;
   color: var(--brick-deep);
   margin-bottom: 18px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .sec-title {
@@ -955,8 +957,10 @@ html.js [data-reveal].is-in {
   .brand-tag { display: none; }
 
   .hero-meta { grid-template-columns: 1fr 1fr; gap: 18px 20px; }
-  .hero-title { font-size: clamp(2rem, 9vw, 2.6rem); line-height: 1.1; }
+  .hero-title { font-size: clamp(1.75rem, 8vw, 2.4rem); line-height: 1.12; overflow-wrap: break-word; }
+  .hero-title br { display: none; }
   .hero-sub { font-size: 1rem; margin-top: 18px; }
+  .eyebrow { font-size: 0.65rem; letter-spacing: 0.12em; }
   .tech-strip { gap: 12px 22px; }
 
   .steps li { grid-template-columns: 60px 1fr; column-gap: 18px; }
