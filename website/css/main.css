@@ -864,6 +864,44 @@ html.js [data-reveal].is-in {
 .cta-btns { margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
 .cta .eyebrow { color: rgba(244, 238, 229, 0.5); }
 
+/* ---------- author / enterprise engineering ---------- */
+
+.author-callout {
+  padding-block: clamp(40px, 6vw, 64px);
+  background: var(--paper-2);
+  border-block: 1px solid var(--line);
+}
+.author-callout .eyebrow { margin-bottom: 14px; }
+.author-callout h2 {
+  font-family: var(--serif);
+  font-weight: 420;
+  font-size: clamp(1.65rem, 3vw, 2.3rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.author-copy {
+  max-width: 88ch;
+  margin-top: 18px;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+.author-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 24px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--brick-deep);
+}
+.author-links a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+.author-links a:hover { color: var(--brick); text-decoration-color: currentColor; }
+
 /* ---------- footer ---------- */
 
 .site-footer { padding-top: 72px; }
